@@ -1,0 +1,6 @@
+# Python package dependencies for BayesPhase.
+# For conda users, prefer environment.yml because pysam depends on HTSlib.
+pysam>=0.22
+pandas>=2.0
+scipy>=1.10
+cliffs-delta>=1.0.0
