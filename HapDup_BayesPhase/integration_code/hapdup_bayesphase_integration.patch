@@ -1,0 +1,111 @@
+diff --git a/hapdup/main.py b/hapdup/main.py
+index 0000000..bayesphase-integration 100644
+--- a/hapdup/main.py
++++ b/hapdup/main.py
+@@
+ FLYE = "flye"
+ SAMTOOLS = "samtools"
+ MINIMAP = "flye-minimap2"
+ PYTHON = "python"
+ 
+ PEPPER_VARIANT = "pepper_variant"
++SINGULARITY = "The path of SINGULARITY"
++WHATSHAP = "whatshap"
++MARGIN_MIRROR = "The path of MARGIN/.sif"
++PEPPER_MIRROR = "The path of PEPPER/.sif"
+@@
+-    margin_dir = os.path.join(args.out_dir, "margin")
++    margin_dir = os.path.join(args.out_dir, "margin")
++    bridge_dir = os.path.join(args.out_dir, "bridge")
++    whatshap_dir = os.path.join(args.out_dir, "whatshap")
+@@
+     haplotagged_bam = os.path.join(margin_dir, "MARGIN_PHASED") + ".haplotagged.bam"
+     phased_blocks_bed = os.path.join(margin_dir, "MARGIN_PHASED") + ".phaseset.bed"
++
++    bridge_vcf = os.path.join(bridge_dir, "bridge") + ".vcf"
++    bridge_haplotagged_bam = os.path.join(bridge_dir, "bridge") + ".haplotagged.bam"
++
++    whatshap_haplotagged_bam = os.path.join(whatshap_dir, "whatshap") + ".haplotagged.bam"
++    whatshap_haplotagged_sort_bam = os.path.join(whatshap_dir, "whatshap") + ".haplotagged_sort.bam"
+@@
+     margin_vcf = os.path.abspath(os.path.join(margin_dir, "MARGIN_PHASED.phased.vcf"))
+     margin_vcf_gz = os.path.abspath(os.path.join(margin_dir, "MARGIN_PHASED.phased.vcf.gz"))
++
++    # Compress and index a VCF for tools that require bgzip/tabix input.
++    def gzip_vcf(vcf_fn):
++        raw_vcf = os.path.abspath(vcf_fn)
++        gz_vcf = os.path.abspath(vcf_fn + ".gz")
++        subprocess.check_call(f"bgzip -c {raw_vcf} > {gz_vcf}", shell=True)
++        subprocess.check_call(f"tabix -p vcf -f {gz_vcf}", shell=True)
+@@
+     # STAGE 3: Phase with Margin
+     if os.path.isfile(margin_vcf) and not overwrite:
+         logger.info("Skipped margin phase")
+@@
+         subprocess.check_call(" ".join(index_cmd), shell=True)
+         overwrite = True
++
++    # STAGE 3.1: Retag reads with WhatsHap using the Margin phased VCF.
++    if os.path.isfile(whatshap_haplotagged_sort_bam) and not overwrite:
++        logger.info("Skipped whatshap phase")
++    else:
++        whatshap_log = os.path.join(whatshap_dir, "whatshap.log")
++        if not os.path.isdir(whatshap_dir):
++            os.mkdir(whatshap_dir)
++        gzip_vcf(margin_vcf)
++        whatshap_cmd = [
++            WHATSHAP, "haplotag",
++            "-o", whatshap_haplotagged_bam,
++            "--output-threads=40",
++            "--reference", os.path.abspath(args.assembly),
++            margin_vcf_gz,
++            os.path.abspath(filtered_bam),
++            "--ignore-read-groups",
++            "2>&1", "|tee", whatshap_log,
++        ]
++        logger.info("Running: %s", " ".join(whatshap_cmd))
++        subprocess.check_call(" ".join(whatshap_cmd), shell=True)
++        file_check(whatshap_haplotagged_bam)
++
++        sort_cmd = [SAMTOOLS, "sort", "-@40", "-o", whatshap_haplotagged_sort_bam, whatshap_haplotagged_bam]
++        logger.info("Running: %s", " ".join(sort_cmd))
++        subprocess.check_call(" ".join(sort_cmd), shell=True)
++
++        index_cmd = [SAMTOOLS, "index", "-@40", whatshap_haplotagged_sort_bam]
++        logger.info("Running: %s", " ".join(index_cmd))
++        subprocess.check_call(" ".join(index_cmd), shell=True)
++        overwrite = True
++
++    # STAGE 3.2: Run BayesPhase to bridge phased blocks.
++    if os.path.isfile(bridge_haplotagged_bam) and not overwrite:
++        logger.info("Skipped bridge phase")
++    else:
++        bridge_log = os.path.join(bridge_dir, "bridge.log")
++        if not os.path.isdir(bridge_dir):
++            os.mkdir(bridge_dir)
++        gzip_vcf(margin_vcf)
++        bridge_cmd = [
++            PYTHON,
++            "BayesPhase Path",
++            margin_vcf,
++            whatshap_haplotagged_sort_bam,
++            bridge_vcf,
++            bridge_haplotagged_bam,
++            "-t", str(args.threads),
++            "2>&1", "|tee", bridge_log,
++        ]
++        logger.info("Running: %s", " ".join(bridge_cmd))
++        subprocess.check_call(" ".join(bridge_cmd), shell=True)
++        file_check(bridge_haplotagged_bam)
++
++        index_cmd = [SAMTOOLS, "index", "-@40", bridge_haplotagged_bam]
++        logger.info("Running: %s", " ".join(index_cmd))
++        subprocess.check_call(" ".join(index_cmd), shell=True)
++        overwrite = True
+@@
+-            flye_cmd = [FLYE, "--polish-target", os.path.abspath(args.assembly), reads_arg, haplotagged_bam,
++            flye_cmd = [FLYE, "--polish-target", os.path.abspath(args.assembly), reads_arg, bridge_haplotagged_bam,
+                         "-t", str(threads), "-o", flye_out, "--polish-haplotypes", hp_string, "2>/dev/null"]
+@@
+-    find_breakpoints(haplotagged_bam, structural_dir, args.threads)
++    find_breakpoints(bridge_haplotagged_bam, structural_dir, args.threads)
