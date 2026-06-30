@@ -29,17 +29,12 @@ See `hapdup_bayesphase_integration.patch` for a compact patch-style summary of t
 
 The integrated workflow contains runtime placeholders that should be configured before running on a new system:
 
-```python
-SINGULARITY = "The path of SINGULARITY"
-MARGIN_MIRROR = "The path of MARGIN/.sif"
-PEPPER_MIRROR = "The path of PEPPER/.sif"
-MARGIN_CONFIG_DIR = "path/hapdup/submodules/margin/params/phase"
+```text
+SINGULARITY executable
+MARGIN Singularity image or executable
+PEPPER Singularity image or executable
+<HAPDUP_ROOT>/submodules/margin/params/phase
+BayesPhase script path, for example BayesPhase_joint_phase.py
 ```
 
-The BayesPhase command in the integration is represented as:
-
-```python
-[PYTHON, "BayesPhase Path", margin_vcf, whatshap_haplotagged_sort_bam, bridge_vcf, bridge_haplotagged_bam, ...]
-```
-
-Replace `"BayesPhase Path"` with the BayesPhase script path used in your runtime environment, for example `submodules/BayesPhase/BayesPhase.py` or the repository-root `BayesPhase_joint_phase.py`.
+In `hapdup/main.py`, replace the placeholder strings for `SINGULARITY`, `MARGIN_MIRROR`, `PEPPER_MIRROR`, `MARGIN_CONFIG_DIR`, and `BayesPhase Path` with paths that are valid in your runtime environment.
