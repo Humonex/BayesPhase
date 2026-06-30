@@ -1,0 +1,18 @@
+flowchart LR
+    subgraph assembly["Assembly generation"]
+        raw["Raw BAM"] --> flye["Flye"] --> assembly_result["Assembly result"]
+        hapdup_output["HapDup_dual_1.fastq<br/>HapDup_dual_2.fastq"]
+    end
+
+    subgraph hapdup["HapDup"]
+        minimap["Minimap"] --> pepper["PEPPER"] --> unphased_vcf["Unphased VCF"] --> margin["MARGIN"]
+        margin --> phased_vcf["Phased VCF"]
+        margin --> tagged_bam_initial["Tagged BAM"]
+        bayesphase["BayesPhase"]
+        phased_vcf --> bayesphase
+        tagged_bam_initial --> bayesphase
+        bayesphase --> tagged_bam["Tagged BAM"]
+    end
+
+    assembly_result --> minimap
+    tagged_bam --> hapdup_output
