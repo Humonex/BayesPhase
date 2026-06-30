@@ -110,7 +110,7 @@ misc.py                     Shared logging and file helpers
 environment.yml            Recommended conda environment
 requirements.txt           Pip dependency list
 test_data/                 Example input manifest and example data location
-HapDup_BayesPhase/          HapDup workflow integration notes and flowchart
+HapDup_BayesPhase/          HapDup-based BayesPhase integration project snapshot
 ```
 
 ## Citation
