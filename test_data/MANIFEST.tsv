@@ -1,0 +1,5 @@
+filename	bytes	description
+test_snp.gz.vcf.gz	29588	bgzip-compressed phased SNP VCF input
+test_snp.gz.tbi	699	tabix index for test_snp.gz.vcf.gz
+test_reads.bam	11888657	coordinate-sorted long-read BAM input
+test_reads.bam.bai	8736	BAM index for test_reads.bam
