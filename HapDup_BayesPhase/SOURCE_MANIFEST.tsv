@@ -1,0 +1,11 @@
+local_path	role	repository_treatment
+HapDup_BayesPhase/hapdup/hapdup/main.py	HapDup pipeline entry modified to insert WhatsHap and BayesPhase after Margin	Summarized as integration patch in integration_code/hapdup_bayesphase_integration.patch
+HapDup_BayesPhase/hapdup/hapdup.py	Local HapDup launcher that sets PEPPER_MODEL_DIR and MARGIN_CONFIG_DIR	Documented as part of HapDup runtime setup
+HapDup_BayesPhase/hapdup/submodules/BayesPhase/BayesPhase.py	BayesPhase bridge implementation used by the integrated workflow	Standalone BayesPhase implementation is maintained at repository root as BayesPhase_joint_phase.py
+HapDup_BayesPhase/hapdup/submodules/BayesPhase/misc.py	BayesPhase helper utilities	Standalone helper is maintained at repository root as misc.py
+HapDup_BayesPhase/hapdup/hapdup/*.py	Original HapDup package modules required by HapDup runtime	Not vendored here; install or clone HapDup upstream
+HapDup_BayesPhase/hapdup/submodules/Flye	External Flye submodule used by HapDup	Not vendored here; install from upstream
+HapDup_BayesPhase/hapdup/submodules/margin	External Margin submodule used by HapDup	Not vendored here; install from upstream
+HapDup_BayesPhase/hapdup/submodules/pepper	External PEPPER submodule used by HapDup	Not vendored here; install from upstream
+HapDup_BayesPhase/hapdup/hapdup/__pycache__	Python bytecode cache	Excluded
+HapDup_BayesPhase/hapdup/submodules/BayesPhase/__pycache__	Python bytecode cache	Excluded
