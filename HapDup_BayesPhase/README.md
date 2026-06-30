@@ -1,8 +1,23 @@
 # HapDup + BayesPhase Integration
 
-This folder documents the experimental workflow that integrates BayesPhase into the HapDup assembly pipeline.
+This folder contains the HapDup-based BayesPhase integration project snapshot. It preserves the HapDup project layout under `hapdup/` and adds documentation for how BayesPhase is inserted into the HapDup workflow.
 
-The implementation is based on the HapDup framework. BayesPhase is inserted after the PEPPER + Margin phasing stage and before HapDup's haplotype-specific polishing and structural-polishing stages. In this workflow, BayesPhase uses the phased VCF and haplotagged BAM to bridge phase blocks, then the updated haplotagged BAM is passed back into the downstream HapDup steps.
+The implementation is based on the original HapDup framework. BayesPhase is inserted after the PEPPER + Margin phasing stage and before HapDup's haplotype-specific polishing and structural-polishing stages. In this workflow, BayesPhase uses the phased VCF and haplotagged BAM to bridge phase blocks, then the updated haplotagged BAM is passed back into downstream HapDup steps.
+
+## Upstream HapDup and License
+
+This integration is derived from the original HapDup project:
+
+- Upstream repository: https://github.com/KolmogorovLab/hapdup
+- Original license: BSD-3-Clause, retained in `hapdup/LICENSE`
+
+The HapDup framework files are included here to make the integration structure explicit. The main BayesPhase-specific HapDup pipeline change is in:
+
+```text
+HapDup_BayesPhase/hapdup/hapdup/main.py
+```
+
+Other HapDup framework files are included to preserve the original project structure and are not intended as BayesPhase method changes. Python bytecode caches (`__pycache__/*.pyc`) and Git submodule metadata files (`submodules/*/.git`) are intentionally excluded from this source snapshot.
 
 ## Figure 1. Workflow Overview
 
@@ -27,7 +42,7 @@ flowchart LR
     tagged_bam --> hapdup_output
 ```
 
-This Mermaid diagram is a repository-renderable version of the provided Figure 1 image.
+This Mermaid diagram is a repository-renderable version of the provided workflow figure.
 
 ## Integration Point
 
@@ -91,22 +106,16 @@ bridge/bridge.log
 HapDup_BayesPhase/
   README.md
   flowchart.mmd
-  integration_code/
-    README.md
-    hapdup_bayesphase_integration.patch
+  SOURCE_MANIFEST.tsv
+  hapdup/                       HapDup project snapshot with BayesPhase-integrated main.py
+  integration_code/             Patch-style notes for the main integration point
 ```
 
-The local source snapshot used to prepare this folder was:
-
-```text
-C:/Users/luomo/Nutstore/1/我的坚果云/BayesPhase/code/HapDup_BayesPhase
-```
-
-Third-party HapDup submodules such as Flye, Margin, and PEPPER are not vendored here. They should be obtained from their upstream repositories according to HapDup's installation instructions.
+Third-party HapDup submodules such as Flye, Margin, and PEPPER are referenced through `.gitmodules` and lightweight README placeholders. They should be installed from their upstream repositories when running the workflow.
 
 ## Related Files
 
-The standalone BayesPhase command-line implementation remains at the repository root:
+The maintained standalone BayesPhase command-line implementation remains at the repository root:
 
 ```text
 BayesPhase_joint_phase.py
