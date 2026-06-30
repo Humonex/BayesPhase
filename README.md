@@ -14,30 +14,28 @@ BayesPhase is a research-stage Python tool for extending phased variant blocks u
 - Supports optional joint methylation and SNP read phasing via `--jointPhase`.
 - Writes an extended phased VCF as output.
 
+## Installation
 
-## Requirements
+The recommended setup is the conda environment in `environment.yml`, because `pysam` depends on the HTSlib ecosystem used for BAM/VCF access.
 
-Recommended environment:
+```bash
+conda env create -f environment.yml
+conda activate bayesphase
+```
 
-- Python 3.9 or later
+A pip-only dependency list is also provided for environments where the required system libraries are already available:
+
+```bash
+python -m pip install -r requirements.txt
+```
+
+Core Python dependencies:
+
+- Python 3.10 or later
 - `pysam`
 - `pandas`
 - `scipy`
-- `cliffs_delta`
-
-Install dependencies in a dedicated environment:
-
-```bash
-conda create -n bayesphase python=3.10
-conda activate bayesphase
-pip install pysam pandas scipy cliffs-delta
-```
-
-If `cliffs-delta` is not available in your package index, install the equivalent package used in your development environment that provides:
-
-```python
-from cliffs_delta import cliffs_delta
-```
+- `cliffs-delta` (`import cliffs_delta`)
 
 ## Usage
 
@@ -55,22 +53,13 @@ Arguments:
 - `-t, --threads`: Number of worker processes. Default: `1`.
 - `-jointPhase, --jointPhase`: Enable joint methylation plus SNP read phasing.
 
-Example:
-
-```bash
-python BayesPhase_joint_phase.py \
-  sample.phased.vcf.gz \
-  sample.alignments.bam \
-  sample.bayesphase.vcf \
-  -t 8 \
-  --jointPhase
-```
+Methylation-only mode can be run by omitting `--jointPhase`.
 
 ## Input Files
 
-The input VCF should contain phased genotype information and phase-set (`PS`) annotations. The input BAM should be indexed and should contain the read-level tags required by the workflow, including haplotype-related tags when available.
+The input VCF should be bgzip-compressed, tabix-indexed, and contain phased genotype information with phase-set (`PS`) annotations. The input BAM should be coordinate-sorted, indexed, and contain the read-level tags required by the workflow, including methylation tags and haplotype-related tags when available.
 
-Example expected files:
+Expected file pairs:
 
 ```text
 sample.phased.vcf.gz
@@ -79,19 +68,49 @@ sample.alignments.bam
 sample.alignments.bam.bai
 ```
 
+## Example Input
+
+A small example input set is documented in `test_data/`. The files prepared for the example are:
+
+```text
+test_data/test_snp.gz.vcf.gz
+test_data/test_snp.gz.tbi
+test_data/test_reads.bam
+test_data/test_reads.bam.bai
+```
+
+Example command from the repository root:
+
+```bash
+python BayesPhase_joint_phase.py \
+  test_data/test_snp.gz.vcf.gz \
+  test_data/test_reads.bam \
+  test_data/test_output.vcf \
+  -t 4 \
+  --jointPhase
+```
+
+See `test_data/README.md` and `test_data/MANIFEST.tsv` for the example input manifest.
+
 ## Output
 
-BayesPhase writes an output VCF containing updated phase-set assignments after block bridging. The exact output interpretation should be described in the manuscript and validated against the benchmark or simulation protocol used in the study.
+BayesPhase writes an output VCF containing updated phase-set assignments after block bridging. The output VCF can be compressed and indexed with standard HTSlib tools if downstream workflows require bgzip/tabix files.
 
-## Reproducibility Notes
+## Experimental Results
 
-Before public release, consider adding:
+The experimental results associated with this project are archived on Zenodo:
 
-- A minimal test dataset.
-- A small expected-output VCF.
-- Exact software versions used in the manuscript.
-- Benchmark scripts for reproducing reported figures and tables.
-- A `requirements.txt` or `environment.yml`.
+- [https://zenodo.org/records/21018164](https://zenodo.org/records/21018164)
+
+## Repository Layout
+
+```text
+BayesPhase_joint_phase.py   Main command-line implementation
+misc.py                     Shared logging and file helpers
+environment.yml            Recommended conda environment
+requirements.txt           Pip dependency list
+test_data/                 Example input manifest and example data location
+```
 
 ## Citation
 
