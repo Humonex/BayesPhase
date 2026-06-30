@@ -1,0 +1,14 @@
+name: bayesphase
+channels:
+  - conda-forge
+  - bioconda
+dependencies:
+  - python=3.10
+  - pip
+  - "pysam>=0.22"
+  - "pandas>=2.0"
+  - "scipy>=1.10"
+  - htslib
+  - samtools
+  - pip:
+      - "cliffs-delta>=1.0.0"
