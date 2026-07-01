@@ -3,7 +3,7 @@
 The local HapDup integration snapshot contained a `submodules/BayesPhase/` directory. In this repository, the maintained BayesPhase implementation is available at the repository root:
 
 ```text
-BayesPhase_joint_phase.py
+BayesPhase.py
 misc.py
 ```
 
