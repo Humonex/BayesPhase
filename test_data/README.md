@@ -21,7 +21,7 @@ File roles:
 Run the example from the repository root:
 
 ```bash
-python BayesPhase_joint_phase.py \
+python BayesPhase.py \
   test_data/test_snp.gz.vcf.gz \
   test_data/test_reads.bam \
   test_data/test_output.vcf \
