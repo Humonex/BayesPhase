@@ -118,7 +118,7 @@ Third-party HapDup submodules such as Flye, Margin, and PEPPER are referenced th
 The maintained standalone BayesPhase command-line implementation remains at the repository root:
 
 ```text
-BayesPhase_joint_phase.py
+BayesPhase.py
 misc.py
 ```
 
