@@ -470,7 +470,7 @@ class MethBridger(Bridger):
 
             if len(hap1_values) >= 2 and len(hap2_values) >= 2:
                 delta, size = cliffs_delta(hap1_values, hap2_values)
-                return abs(delta) > 0.23
+                return abs(delta) > 0.33
             else:
                 return False
             
@@ -1970,7 +1970,7 @@ class MethBridger(Bridger):
             #self.compare_phased_meths(meths, valid_locs)
             if self.opts.get("joint_phase", False):
                 improvement_1 = self.test_switch_joint(meths, snps)
-                self.detect_switch(improvement_1)
+                return self.detect_switch(improvement_1)
     
             #improvement = self.test_switch(meths, valid_locs)     
             return self.detect_switch(improvement)
