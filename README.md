@@ -2,9 +2,6 @@
 
 BayesPhase is a research-stage Python tool for extending phased variant blocks using long-read methylation and SNP evidence. The current implementation bridges adjacent phased blocks from an input VCF and BAM file, with an optional joint methylation plus SNP phasing mode.
 
-> **Pre-publication notice**
->
-> This repository contains unpublished research code. Please keep the repository private until the associated manuscript is accepted or released as a preprint.
 
 ## Features
 
@@ -116,5 +113,4 @@ HapDup_BayesPhase/          HapDup-based BayesPhase integration project snapshot
 
 ## License
 
-License information is not yet specified. Keep this repository private until the release policy is finalized.
 This project is distributed under the GNU General Public License v3.0. 
