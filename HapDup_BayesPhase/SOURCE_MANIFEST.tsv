@@ -4,7 +4,7 @@ HapDup_BayesPhase/hapdup/hapdup.py	HapDup launcher that sets PEPPER_MODEL_DIR an
 HapDup_BayesPhase/hapdup/hapdup/*.py	Original HapDup framework modules required by the runtime	Included to preserve the HapDup project framework; not intended as BayesPhase method changes
 HapDup_BayesPhase/hapdup/LICENSE	Original HapDup BSD-3-Clause license	Included for license compliance
 HapDup_BayesPhase/hapdup/README.md	Original HapDup README	Included to preserve upstream project attribution
-HapDup_BayesPhase/hapdup/submodules/BayesPhase/BayesPhase.py	Compatibility BayesPhase entry point for the HapDup integration	Points to the maintained repository-root BayesPhase_joint_phase.py implementation
+HapDup_BayesPhase/hapdup/submodules/BayesPhase/BayesPhase.py	Compatibility BayesPhase entry point for the HapDup integration	Points to the maintained repository-root BayesPhase.py implementation
 HapDup_BayesPhase/hapdup/submodules/BayesPhase/misc.py	BayesPhase helper utilities	Included
 HapDup_BayesPhase/hapdup/submodules/Flye	External Flye dependency used by HapDup	Documented with upstream pointer; full third-party source is not vendored here
 HapDup_BayesPhase/hapdup/submodules/margin	External Margin dependency used by HapDup	Documented with upstream pointer; full third-party source is not vendored here
