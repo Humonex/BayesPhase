@@ -113,26 +113,8 @@ test_data/                 Example input manifest and example data location
 HapDup_BayesPhase/          HapDup-based BayesPhase integration project snapshot
 ```
 
-## Citation
-
-Citation information will be added after the manuscript is available.
-
-```bibtex
-@article{bayesphase_tbd,
-  title   = {BayesPhase: TODO},
-  author  = {TODO},
-  journal = {TODO},
-  year    = {TODO}
-}
-```
 
 ## License
 
 License information is not yet specified. Keep this repository private until the release policy is finalized.
-
-## Contact
-
-For questions about the method or implementation, contact:
-
-- TODO: author name
-- TODO: email address
+This project is distributed under the GNU General Public License v3.0. 
