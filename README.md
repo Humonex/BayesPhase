@@ -40,7 +40,7 @@ Core Python dependencies:
 ## Usage
 
 ```bash
-python BayesPhase_joint_phase.py <input.vcf.gz> <input.bam> <output.vcf> \
+python BayesPhase.py <input.vcf.gz> <input.bam> <output.vcf> \
   --threads 8 \
   --jointPhase
 ```
@@ -82,7 +82,7 @@ test_data/test_reads.bam.bai
 Example command from the repository root:
 
 ```bash
-python BayesPhase_joint_phase.py \
+python BayesPhase.py \
   test_data/test_snp.gz.vcf.gz \
   test_data/test_reads.bam \
   test_data/test_output.vcf \
@@ -105,7 +105,7 @@ The experimental results associated with this project are archived on Zenodo:
 ## Repository Layout
 
 ```text
-BayesPhase_joint_phase.py   Main command-line implementation
+BayesPhase.py               Main command-line implementation
 misc.py                     Shared logging and file helpers
 environment.yml            Recommended conda environment
 requirements.txt           Pip dependency list
