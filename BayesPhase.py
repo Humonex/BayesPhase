@@ -1953,15 +1953,6 @@ class MethBridger(Bridger):
                 v.verify(*self.meth_options())
                 v.verify_phased(*self.meth_options())
 
-            #self.extend_phased_reads(meths, unphased)
-            improvement = self.test_switch(meths) 
-
-
-            for p, c in sorted(improvement.items()):
-                imp = c[0]/c[1] if c[1] > 0 else 0
-                # if True or imp < 0:
-                #     print(p, c, imp)    
-                    
             # links = self.get_meths_linkscores(bf, blk, meths)
             # valid_locs = self.extract_consistent_meths(meths, links)
             # sorted(valid_locs)
@@ -1972,6 +1963,15 @@ class MethBridger(Bridger):
                 improvement_1 = self.test_switch_joint(meths, snps)
                 return self.detect_switch(improvement_1)
     
+            #self.extend_phased_reads(meths, unphased)
+            improvement = self.test_switch(meths) 
+
+
+            for p, c in sorted(improvement.items()):
+                imp = c[0]/c[1] if c[1] > 0 else 0
+                # if True or imp < 0:
+                #     print(p, c, imp)    
+                    
             #improvement = self.test_switch(meths, valid_locs)     
             return self.detect_switch(improvement)
         
