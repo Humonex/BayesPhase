@@ -34,7 +34,7 @@ SINGULARITY executable
 MARGIN Singularity image or executable
 PEPPER Singularity image or executable
 <HAPDUP_ROOT>/submodules/margin/params/phase
-BayesPhase script path, for example BayesPhase_joint_phase.py
+BayesPhase script path, for example BayesPhase.py
 ```
 
 In `hapdup/main.py`, replace the placeholder strings for `SINGULARITY`, `MARGIN_MIRROR`, `PEPPER_MIRROR`, `MARGIN_CONFIG_DIR`, and `BayesPhase Path` with paths that are valid in your runtime environment.
